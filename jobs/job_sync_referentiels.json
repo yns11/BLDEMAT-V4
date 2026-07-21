@@ -1,0 +1,42 @@
+{
+  "name": "bl-v3-sync-referentiels-erp",
+  "description": "Synchronisation journalière des référentiels ERP (fournisseurs, clients, DESADV achat) vers le Lakebase de la solution BL dématérialisés V3. Préparation Spark SQL -> staging UC -> upsert Postgres non destructif (CRUD manuel préservé).",
+  "tasks": [
+    {
+      "task_key": "sync_referentiels",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/<VOTRE_EMAIL>/bl_v3/notebook_sync_referentiels_erp",
+        "source": "WORKSPACE"
+      },
+      "environment_key": "bl_env"
+    }
+  ],
+  "environments": [
+    {
+      "environment_key": "bl_env",
+      "spec": {
+        "client": "4",
+        "dependencies": ["psycopg[binary]==3.2.3", "databricks-sdk>=0.81.0"]
+      }
+    }
+  ],
+  "parameters": [
+    { "name": "catalogue_erp", "default": "emotors_data_platform" },
+    { "name": "schema_erp", "default": "bronze_erp" },
+    { "name": "catalogue_staging", "default": "emotors_data_platform" },
+    { "name": "schema_staging", "default": "bl_demat_staging" },
+    { "name": "lakebase_endpoint", "default": "" },
+    { "name": "pg_host", "default": "<PGHOST_DU_PROJET_LAKEBASE_V3>" },
+    { "name": "pg_database", "default": "databricks_postgres" },
+    { "name": "pg_schema", "default": "bl_demat" }
+  ],
+  "schedule": {
+    "quartz_cron_expression": "0 30 5 * * ?",
+    "timezone_id": "Europe/Paris",
+    "pause_status": "UNPAUSED"
+  },
+  "email_notifications": {
+    "on_failure": ["younes.elhachi@gmail.com"]
+  },
+  "max_concurrent_runs": 1
+}

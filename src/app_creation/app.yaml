@@ -21,5 +21,5 @@ env:
   # scannée. Laisser vide / commenté pour désactiver (saisie manuelle).
   # Nécessite d'ajouter la ressource « Serving endpoint » à l'app (Edit →
   # Resources) et d'accorder « Can query » au service principal.
-  # - name: BL_LLM_ENDPOINT
-  #   value: "databricks-claude-sonnet-4"
+  - name: BL_LLM_ENDPOINT
+    value: "databricks-claude-opus-4-8"

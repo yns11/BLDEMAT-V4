@@ -1,0 +1,25 @@
+command: ["streamlit", "run", "app.py"]
+
+# V3 Lakebase : PGHOST, PGPORT, PGDATABASE, PGUSER et PGSSLMODE sont
+# injectées AUTOMATIQUEMENT par la ressource d'app « postgres » (base
+# Lakebase) — rien à déclarer ici pour la connexion. Le mot de passe est
+# le jeton OAuth du service principal, généré par le code au démarrage.
+env:
+  # Configuration externalisée (CDC) : rien en dur dans le code.
+  - name: BL_PG_SCHEMA
+    value: "bl_demat"
+  - name: BL_MAX_IMAGE_BYTES
+    value: "2097152"
+  - name: BL_MAX_DIMENSION_PX
+    value: "3508"
+  # Fuseau du site : préremplissage de la plage horaire de réception
+  # (le conteneur tourne en UTC).
+  - name: BL_FUSEAU
+    value: "Europe/Paris"
+  # Extraction IA (optionnelle) : nom de l'endpoint de model serving vision
+  # (chat OpenAI-compatible) qui pré-remplit les champs à partir de l'image
+  # scannée. Laisser vide / commenté pour désactiver (saisie manuelle).
+  # Nécessite d'ajouter la ressource « Serving endpoint » à l'app (Edit →
+  # Resources) et d'accorder « Can query » au service principal.
+  - name: BL_LLM_ENDPOINT
+    value: "databricks-claude-opus-4-8"
